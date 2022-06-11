@@ -1,7 +1,9 @@
 let apiData = "http://localhost:3000/api/products/";
 let kanapUrl = new URL(window.location.href)
 let kanapId = kanapUrl.searchParams.get("id");
+let key = 'key';
 
+// requète GET à l'api pour récuperer des données
 async function getData(url) {
     let data = await fetch(url)
         .then(data => { return data.json() })
@@ -9,7 +11,9 @@ async function getData(url) {
     return data;
 }
 
+//affiche les détails du produit
 async function printKanap() {
+    // je passe l'id de mon produit dans l'url pour récupérer les infos de ce produit spécifique
     let kanapData = await getData(apiData + kanapId);
 
     let kanapImg = document.getElementsByClassName("item__img")[0];
@@ -34,10 +38,64 @@ async function printKanap() {
         newColor.innerText = color;
         kanapColors.appendChild(newColor);
     }
-
-
-
+    addToCart();
 }
+
+// envoie les infos au localStorage suite à un événement click
+function addToCart() {
+    let cartButton = document.getElementById("addToCart");
+    cartButton.addEventListener('click', saveInfo);
+}
+
+// recupere le panier dans localStorage
+function getCart() {
+    if (localStorage.getItem(key) === null) {
+        return [];
+    }
+    else {
+        return JSON.parse(localStorage.getItem(key));
+    }
+}
+
+// vérifie et récupère les input de l'utilisateur
+function getInput() {
+    let kanapColors = document.getElementById("colors");
+    let kanapQuantity = document.getElementById('quantity');
+    
+    let object = {
+        color: kanapColors.value,
+        quantity: parseInt(kanapQuantity.value),
+        itemCheck: kanapId + kanapColors.value
+    };
+    return object;
+}
+
+// stock les infos sur localStorage
+function saveInfo() {
+    let cart = getCart();
+    let input = getInput();
+    let index = cart.findIndex(object => { return object.itemCheck == input.itemCheck });
+
+    if (index === -1) {
+        let kanapObject = {
+            itemCheck: input.itemCheck,
+            id: kanapId,
+            color: input.color,
+            quantity: input.quantity
+        };
+        cart.push(kanapObject);
+    }
+    else{
+        cart[index].quantity += input.quantity;
+    }
+
+    localStorage.setItem(key, JSON.stringify(cart));
+    console.log(JSON.parse(localStorage.getItem(key)));
+    localStorage.clear();
+}
+
+
+
 
 printKanap();
 

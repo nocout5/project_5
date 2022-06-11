@@ -1,6 +1,7 @@
 
 let apiData = "http://localhost:3000/api/products";
 
+// récupère les infos selon l'url passée en paramètre
 async function getData(url) {
     let data = await fetch(url)
         .then(data => {return data.json()})
