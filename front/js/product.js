@@ -38,7 +38,6 @@ async function printKanap() {
         newColor.innerText = color;
         kanapColors.appendChild(newColor);
     }
-    addToCart();
 }
 
 // envoie les infos au localStorage suite à un événement click
@@ -59,21 +58,34 @@ function getCart() {
 
 // vérifie et récupère les input de l'utilisateur
 function getInput() {
-    let kanapColors = document.getElementById("colors");
-    let kanapQuantity = document.getElementById('quantity');
-    
+    let kanapColors = document.getElementById("colors").value;
+    let kanapQuantity = document.getElementById('quantity').value;
+
+    if (kanapQuantity.match(/^[0-9]+$/) == null){
+        alert('la sélèction quantité ne doit pas prendre de caractères !')
+        return 0
+    }
+    else
+    kanapQuantity = parseInt(kanapQuantity);
+
+    if (kanapColors == "" || kanapQuantity < 1 || kanapQuantity > 100){
+        alert("choisissez de bonne valeur bande de crétin !!");
+        return (0);
+    }
+
     let object = {
-        color: kanapColors.value,
-        quantity: parseInt(kanapQuantity.value),
-        itemCheck: kanapId + kanapColors.value
+        color: kanapColors,
+        quantity: kanapQuantity,
+        itemCheck: kanapId + kanapColors
     };
     return object;
 }
 
 // stock les infos sur localStorage
 function saveInfo() {
+    if ( (input = getInput()) === 0 )
+        return;
     let cart = getCart();
-    let input = getInput();
     let index = cart.findIndex(object => { return object.itemCheck == input.itemCheck });
 
     if (index === -1) {
@@ -85,9 +97,8 @@ function saveInfo() {
         };
         cart.push(kanapObject);
     }
-    else{
+    else 
         cart[index].quantity += input.quantity;
-    }
 
     localStorage.setItem(key, JSON.stringify(cart));
     console.log(JSON.parse(localStorage.getItem(key)));
@@ -98,4 +109,6 @@ function saveInfo() {
 
 
 printKanap();
+addToCart();
+
 
