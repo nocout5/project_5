@@ -61,14 +61,14 @@ function getInput() {
     let kanapColors = document.getElementById("colors").value;
     let kanapQuantity = document.getElementById('quantity').value;
 
-    if (kanapQuantity.match(/^[0-9]+$/) == null){
+    if (kanapQuantity.match(/^[0-9]+$/) == null) {
         alert('la sélèction quantité ne doit pas prendre de caractères !')
         return 0
     }
     else
-    kanapQuantity = parseInt(kanapQuantity);
+        kanapQuantity = parseInt(kanapQuantity);
 
-    if (kanapColors == "" || kanapQuantity < 1 || kanapQuantity > 100){
+    if (kanapColors == "" || kanapQuantity < 1 || kanapQuantity > 100) {
         alert("choisissez de bonne valeur bande de crétin !!");
         return (0);
     }
@@ -83,7 +83,7 @@ function getInput() {
 
 // stock les infos sur localStorage
 function saveInfo() {
-    if ( (input = getInput()) === 0 )
+    if ((input = getInput()) === 0)
         return;
     let cart = getCart();
     let index = cart.findIndex(object => { return object.itemCheck == input.itemCheck });
@@ -97,12 +97,11 @@ function saveInfo() {
         };
         cart.push(kanapObject);
     }
-    else 
+    else
         cart[index].quantity += input.quantity;
 
     localStorage.setItem(key, JSON.stringify(cart));
     console.log(JSON.parse(localStorage.getItem(key)));
-    localStorage.clear();
 }
 
 
