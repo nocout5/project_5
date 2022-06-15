@@ -63,7 +63,7 @@ function getInput() {
 
     if (kanapQuantity.match(/^[0-9]+$/) == null) {
         alert('la sélèction quantité ne doit pas prendre de caractères !')
-        return 0
+        return 0;
     }
     else
         kanapQuantity = parseInt(kanapQuantity);
@@ -101,7 +101,6 @@ function saveInfo() {
         cart[index].quantity += input.quantity;
 
     localStorage.setItem(key, JSON.stringify(cart));
-    console.log(JSON.parse(localStorage.getItem(key)));
 }
 
 
