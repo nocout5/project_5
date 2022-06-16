@@ -1,6 +1,7 @@
 let apiData = "http://localhost:3000/api/products/";
 let kanapUrl = new URL(window.location.href)
 let kanapId = kanapUrl.searchParams.get("id");
+// ideally generate by server
 let key = 'key';
 
 // requète GET à l'api pour récuperer des données
@@ -69,7 +70,7 @@ function getInput() {
         kanapQuantity = parseInt(kanapQuantity);
 
     if (kanapColors == "" || kanapQuantity < 1 || kanapQuantity > 100) {
-        alert("choisissez de bonne valeur bande de crétin !!");
+        alert("valeurs incorect !!");
         return (0);
     }
 

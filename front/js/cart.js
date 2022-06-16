@@ -109,24 +109,25 @@ async function printCart() {
         addElement(kanap, section_items, kanapData);
         addTotal(kanap, kanapData, total);
     }
-    totalQuantity.innerHTML = total.quantity;
-    totalPrice.innerHTML = total.price;
+
     deleteCartElement(cart, section_items);
     changeCartElement(cart, section_items);
+    totalQuantity.innerHTML = total.quantity;
+    totalPrice.innerHTML = total.price;
 }
 
 
-function changeCartElement(cart, section_items){
+function changeCartElement(cart, section_items) {
     let quantityInput = document.querySelectorAll(".itemQuantity");
     quantityInput.forEach(element => {
         element.addEventListener('change', function () {
-            if (this.value < 1 || this.value > 100){
-                alert("choisissez de bonne valeur bande de crétin !!");
+            if (this.value < 1 || this.value > 100) {
+                alert("choisissez de bonne valeur  !!");
                 return 0;
             }
             let article = element.closest('article');
             let index = cart.findIndex(object => { return object.itemCheck == (article.dataset.id + article.dataset.color) })
-            cart[index].quantity = this.value;
+            cart[index].quantity = parseInt(this.value);
             localStorage.setItem(key, JSON.stringify(cart));
             section_items.innerHTML = "";
             printCart();
@@ -151,3 +152,44 @@ function deleteCartElement(cart, section_items) {
 }
 
 printCart();
+
+let orderProducts = [];
+let cart = getCart();
+for (let i = 0; i < cart.length; i++) {
+    orderProducts.push(cart[i].id);
+}
+
+function sendForm() {
+    const orderUserProduct = {
+        contact: {
+            firstName: "jean",
+            lastName: "camus",
+            address: "asnieres",
+            city: "paris",
+            email: "myemail",
+        },
+        products: orderProducts,
+    };
+
+    const options = {
+        method: "POST",
+        body: JSON.stringify(orderUserProduct),
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+    };
+
+
+    fetch("http://localhost:3000/api/products/order", options)
+        .then((res) => res.json())
+        .then((data) => {
+            // Renvoi de l'orderID dans l'URL
+            console.log(data);
+        })
+        .catch(function (err) {
+            console.log("Erreur fetch" + err);
+        });
+}
+
+sendForm();
