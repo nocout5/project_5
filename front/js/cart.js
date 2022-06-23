@@ -20,7 +20,7 @@ async function getData(url) {
   return data;
 }
 
-function addElement(kanap, section_items, kanapData) {
+function addElement(kanap, kanapData) {
   let article_cart = document.createElement("article");
   article_cart.classList.add("cart__item");
   article_cart.dataset.id = kanap.id;
@@ -85,7 +85,7 @@ function addElement(kanap, section_items, kanapData) {
   p_delete.innerHTML = "Supprimer";
   div_delete.appendChild(p_delete);
 
-  section_items.appendChild(article_cart);
+  return article_cart;
 }
 
 function addTotal(kanap, kanapData, total) {
@@ -105,8 +105,8 @@ async function printCart() {
   };
   for (let kanap of cart) {
     let kanapData = await getData(apiData + kanap.id);
-
-    addElement(kanap, section_items, kanapData);
+    let article_cart = addElement(kanap, kanapData);
+    section_items.appendChild(article_cart);
     addTotal(kanap, kanapData, total);
   }
 
