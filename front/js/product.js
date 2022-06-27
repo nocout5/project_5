@@ -76,6 +76,7 @@ function getInput() {
   let object = {
     color: kanapColors,
     quantity: kanapQuantity,
+    // itemcheck permet d'identifier les produits selon leur type et leur couleur
     itemCheck: kanapId + kanapColors,
   };
   return object;

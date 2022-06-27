@@ -20,6 +20,7 @@ async function getData(url) {
   return data;
 }
 
+// addElement créer les éléments à ajouter sur la page
 function addElement(kanap, kanapData) {
   let article_cart = document.createElement("article");
   article_cart.classList.add("cart__item");
@@ -88,6 +89,7 @@ function addElement(kanap, kanapData) {
   return article_cart;
 }
 
+// addTotal calcul le total de quantité et de prix
 function addTotal(kanap, kanapData, total) {
   total.quantity += kanap.quantity;
   total.price += kanapData.price * kanap.quantity;
@@ -116,6 +118,7 @@ async function printCart() {
   totalPrice.innerHTML = total.price;
 }
 
+// changeCartElement permet de modifier la quantité de produit
 function changeCartElement(cart, section_items) {
   let quantityInput = document.querySelectorAll(".itemQuantity");
   quantityInput.forEach((element) => {
@@ -136,6 +139,7 @@ function changeCartElement(cart, section_items) {
   });
 }
 
+// deleteCartElement permet de suprimer un produit du panier
 function deleteCartElement(cart, section_items) {
   let deleteButton = document.querySelectorAll(".deleteItem");
   deleteButton.forEach((element) => {
@@ -152,6 +156,7 @@ function deleteCartElement(cart, section_items) {
   });
 }
 
+// getUserInput test les valeurs des inputs du formulaire
 function getUserInput(inputId) {
   let input = document.getElementById(inputId);
   let value = input.value;
@@ -225,6 +230,7 @@ function getUserInput(inputId) {
   return value;
 }
 
+// getProductsId retourne l'id des produits du localStorage 
 function getProductsId() {
   let orderProducts = [];
   let cart = getCart();
@@ -234,6 +240,7 @@ function getProductsId() {
   return orderProducts;
 }
 
+// getOrderId envoie le formulaire à l'api et redirige vers la page confirmation
 function getOrderId(form) {
   let orderProducts = [];
   let cart = getCart();
@@ -252,6 +259,7 @@ function getOrderId(form) {
   fetch("http://localhost:3000/api/products/order", options)
     .then((res) => res.json())
     .then((data) => {
+      localStorage.clear();
       location.href = `../html/confirmation.html?order_id=${data.orderId}`;
     })
     .catch(function (err) {
@@ -259,6 +267,7 @@ function getOrderId(form) {
     });
 }
 
+// sendForm créer l'objet du formulaire à envoyer à l'api
 function sendForm() {
   let purchaseButton = document.getElementById("order");
   purchaseButton.addEventListener("click", function (event) {

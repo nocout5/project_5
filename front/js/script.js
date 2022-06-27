@@ -1,15 +1,19 @@
+// url a passer vers l'api pour récupérer la liste de mes produits
 let apiData = "http://localhost:3000/api/products";
 
 // récupère les infos selon l'url passée en paramètre
 async function getData(url) {
+  // await va me permetre de retourner un objet et non une promesse
   let data = await fetch(url)
     .then((data) => {
       return data.json();
     })
+    // affiche les erreur dans la console du navigateur
     .catch((error) => console.log(error));
   return data;
 }
 
+// affiche les éléments de l'api sur la page
 async function printKanapList() {
   // requète GET vers l'API pour récuppèrer la liste de mes éléments à afficher
   let listOfKanap = await getData(apiData);
@@ -17,7 +21,6 @@ async function printKanapList() {
 
   for (let kanap of listOfKanap) {
     // boucle qui va parcourir la liste de mes éléments et inserer du contenu HTML
-    // sur ma page d'acceuil
 
     const kanapLink = document.createElement("a");
     kanapLink.href = `../html/product.html?id=${kanap._id}`;
