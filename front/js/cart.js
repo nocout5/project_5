@@ -167,7 +167,7 @@ function getUserInput(inputId) {
       /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u.test(
         value
       ) === false ||
-      value.length < 3 ||
+      value.length < 1 ||
       value.length > 30
     ) {
       document.getElementById(inputId + "ErrorMsg").innerHTML =
@@ -181,7 +181,7 @@ function getUserInput(inputId) {
       /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u.test(
         value
       ) === false ||
-      value.length < 3 ||
+      value.length < 1 ||
       value.length > 30
     ) {
       document.getElementById(inputId + "ErrorMsg").innerHTML =
@@ -192,12 +192,11 @@ function getUserInput(inputId) {
 
   if (inputId == "address") {
     if (
-      /([0-9]*) ?([a-zA-Z,\. ]*) ?([0-9]{5}) ?([a-zA-Z]*)/.test(value) ===
-        false ||
+      value.length < 3 ||
       value.length > 50
     ) {
       document.getElementById(inputId + "ErrorMsg").innerHTML =
-        "ce champs doit contenir une adresse valide avec un code postal";
+        "ce champs doit contenir une adresse valide";
       return 0;
     }
   }
@@ -207,7 +206,7 @@ function getUserInput(inputId) {
       /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u.test(
         value
       ) === false ||
-      value.length < 3 ||
+      value.length < 2 ||
       value.length > 30
     ) {
       document.getElementById(inputId + "ErrorMsg").innerHTML =
@@ -218,7 +217,7 @@ function getUserInput(inputId) {
 
   if (inputId == "email") {
     if (
-      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(
+      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
         value
       ) === false
     ) {
@@ -244,6 +243,10 @@ function getProductsId() {
 function getOrderId(form) {
   let orderProducts = [];
   let cart = getCart();
+  if (cart.length === 0){
+    alert("votre panier est vide");
+    return 0;
+  }
   for (let i = 0; i < cart.length; i++) {
     orderProducts.push(cart[i].id);
   }

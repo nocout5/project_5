@@ -101,6 +101,7 @@ function saveInfo() {
   } else cart[index].quantity += input.quantity;
 
   localStorage.setItem(key, JSON.stringify(cart));
+  alert("votre produit à bien été ajouté au panier");
 }
 
 printKanap();
